@@ -30,6 +30,7 @@ async function getBalance() {
         document.getElementById("output").innerHTML = error;
     }
 }
+
 async function getERC20Balance() {
     var address, contractAddress, contractABI, tokenContract, decimals, balance, name, symbol, adjustedBalance
     address = document.getElementById("address").value
@@ -43,8 +44,10 @@ async function getERC20Balance() {
     name = promisify(cb => tokenContract.name(cb))
     symbol = promisify(cb => tokenContract.symbol(cb))
 
+    //var balance = Math.round((tokenContract.balanceOf(address).toString(10) / Math.pow(10, 18))).toFixed(18)
+
     try {
-        adjustedBalance = await balance / Math.pow(10, await decimals)
+        adjustedBalance = Math.round(await balance / Math.pow(10, await decimals)).toFixed(18)
         document.getElementById("output2").innerHTML = adjustedBalance;
         document.getElementById("output2").innerHTML += " " + await symbol + " (" + await name + ")";
     } catch (error) {
